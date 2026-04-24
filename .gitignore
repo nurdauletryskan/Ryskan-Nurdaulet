@@ -1,0 +1,57 @@
+# Compiled Java files
+*.class
+
+# Log files
+*.log
+
+# IDE files (IntelliJ, Eclipse)
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Build folders
+/target/
+/build/
+/out/
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Database files (егер қолдансаң)
+*.db
+*.sqlite
+
+# Environment files
+.env
+
+# Crash logs
+hs_err_pid*
+replay_pid*
+
+# Bank System specific
+# Test нәтижелері
+/test-output/
+
+# Generated reports
+/reports/
+
+# Backup files
+*.backup
