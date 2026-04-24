@@ -1,4 +1,3 @@
-// Базалық класс
 class Account {
     protected String owner;
     protected double balance;
@@ -8,14 +7,28 @@ class Account {
         this.balance = balance;
     }
 
-    // Ақша салу
+
+    public double getBalance() {
+        return balance;
+    }
+
+
     public void deposit(double amount) {
+        if (amount <= 0) {
+            System.out.println("Қате: сома 0-ден үлкен болуы керек!");
+            return;
+        }
         balance += amount;
         System.out.println(owner + " шотына " + amount + " қосылды. Баланс: " + balance);
     }
 
-    // Ақша алу (жалпы ереже)
+
     public void withdraw(double amount) {
+        if (amount <= 0) {
+            System.out.println("Қате: сома дұрыс емес!");
+            return;
+        }
+
         if (balance >= amount) {
             balance -= amount;
             System.out.println(owner + " шотынан " + amount + " алынды. Баланс: " + balance);
@@ -25,34 +38,37 @@ class Account {
     }
 }
 
-// Жинақ шоты (Savings)
 class SavingsAccount extends Account {
-    private double interestRate = 0.05; // 5%
+    private double interestRate = 0.05;
 
     public SavingsAccount(String owner, double balance) {
         super(owner, balance);
     }
 
-    // Пайыз қосу
     public void addInterest() {
         double interest = balance * interestRate;
         balance += interest;
-        System.out.println("Пайыз қосылды: " + interest + ". Баланс: " + balance);
+        System.out.println(owner + ": Пайыз қосылды = " + interest + ". Баланс: " + balance);
     }
 
-    // Withdraw override (шектеу бар)
+
     @Override
     public void withdraw(double amount) {
-        if (balance - amount >= 100) { // минимум 100 қалу керек
+        if (amount <= 0) {
+            System.out.println("Қате: сома дұрыс емес!");
+            return;
+        }
+
+        if (balance - amount >= 100) {
             balance -= amount;
-            System.out.println("Savings: " + amount + " алынды. Баланс: " + balance);
+            System.out.println(owner + " (Savings): " + amount + " алынды. Баланс: " + balance);
         } else {
-            System.out.println("Минимум баланс 100 болуы керек!");
+            System.out.println("Қате: Минимум баланс 100 болуы керек!");
         }
     }
 }
 
-// Кредиттік шот
+
 class CreditAccount extends Account {
     private double creditLimit = 500;
 
@@ -60,19 +76,22 @@ class CreditAccount extends Account {
         super(owner, balance);
     }
 
-    // Withdraw override (минусқа кетуге болады)
     @Override
     public void withdraw(double amount) {
+        if (amount <= 0) {
+            System.out.println("Қате: сома дұрыс емес!");
+            return;
+        }
+
         if (balance - amount >= -creditLimit) {
             balance -= amount;
-            System.out.println("Credit: " + amount + " алынды. Баланс: " + balance);
+            System.out.println(owner + " (Credit): " + amount + " алынды. Баланс: " + balance);
         } else {
-            System.out.println("Кредит лимитінен асып кетті!");
+            System.out.println("Қате: Кредит лимитінен асып кетті!");
         }
     }
 }
 
-// Тест класы
 public class BankSystem {
     public static void main(String[] args) {
 
@@ -80,19 +99,19 @@ public class BankSystem {
         Account acc2 = new CreditAccount("Dias", 200);
 
         acc1.deposit(500);
-        acc1.withdraw(1300); // Savings ережесі
+        acc1.withdraw(1300);
 
-        System.out.println("---------------");
+        System.out.println("----------------");
 
-        acc2.withdraw(600); // Credit ережесі
+        acc2.withdraw(600);
         acc2.deposit(300);
 
-        // Полиморфизм
+        System.out.println("\n=== Полиморфизм ===");
+
         Account[] accounts = {acc1, acc2};
 
-        System.out.println("=== Полиморфизм ===");
         for (Account acc : accounts) {
-            acc.withdraw(50); // әрқайсысы өз логикасымен жұмыс істейді
+            acc.withdraw(50);
         }
     }
 }
